@@ -3,28 +3,40 @@
 
 
 <div class="container">
-     <header class="jumbotron">
-         <div class="container">
-             <h1>Welcome To CampgroundFinder<h1>
-				 <p> View our campgrounds from all over the world</p>
-             <p>
-                <a class="btn btn-primary btn-large" href="/campgrounds/new">Add New Campground</a>
-             </p>
-         </div>
-     </header>
-     
-     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-        <% campgrounds.forEach(function(campground){ %>
-            <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">
-                   <img src="<%= campground.image %>">
-                   <div class="caption">
-                       <h4><%= campground.name %></h4>
-                   </div>
-                </div>
-            </div>
-        <% }); %>
-    </div>
+	
+	<header class="jumbotron">
+		<div class="container">
+			<h1>
+			Welcome to CampgroundFinder
+			</h1>
+			<p>
+				View our campgrounds from all over the world
+			</p>
+		   <!-- To change the anchour tag to a button using bootstrap 		 -->
+			<p>
+				<a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
+			</p>
+		</div>
+	</header>
+
+
+	<div class="row text-center" style="display:flex; flex-wrap:wrap;">
+		<% campgrounds.forEach(function(campground){  %>
+			<div class="col-md-4 col-sm-6">
+				
+					<div class="img-thumbnail">
+						<img src="<%= campground.image %> " class="img-fluid" alt="Responsive image">	
+						<div class="caption">
+							<h4>
+					          <%= campground.name %>
+				             </h4>
+						</div>
+					</div>
+			</div>
+
+
+		<% }); %>
+	</div>
 </div>
 
 <%- include ("partials/footer") %>
