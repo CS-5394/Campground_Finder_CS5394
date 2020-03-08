@@ -6,7 +6,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs")
 
 
-
+//array to store campgrounds
 var campgrounds=[
 		{name:"Pleasant creek",image:"https://cdn.pixabay.com/photo/2016/11/21/15/14/camping-1845906__480.jpg"},
 		{name:"sam's creek",image:"https://cdn.pixabay.com/photo/2016/11/22/23/08/adventure-1851092__480.jpg"},
