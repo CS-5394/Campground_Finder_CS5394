@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "author": "Archana",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -17,6 +14,30 @@
     "mongoose": "^5.9.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.0.1"
-  }
+    "passport-local-mongoose": "^6.0.1",
+    "superagent": "^5.2.2"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "devDependencies": {
+    "jest": "^25.2.7",
+    "supertest": "^4.0.2",
+	 "superagent": "^5.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CS-5394/Campground_Finder_CS5394.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/CS-5394/Campground_Finder_CS5394/issues"
+  },
+  "homepage": "https://github.com/CS-5394/Campground_Finder_CS5394#readme"
 }
