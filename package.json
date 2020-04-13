@@ -23,7 +23,7 @@
     "superagent": "^5.2.2"
   },
   "scripts": {
-    "test": " jest --coverage"
+    "test": " jest"
   },
   "jest": {
     "preset": "./jest-preset.js"
