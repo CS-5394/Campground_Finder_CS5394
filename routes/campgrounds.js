@@ -3,16 +3,34 @@ var router = express.Router();
 var Campground = require("../models/campground");
 var middleware = require("../middleware");
 
+
+// Define escapeRegex function to avoid regex DDoS attack
+const escapeRegex = text => text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+
 //INDEX - show all campgrounds
 router.get("/campgrounds", function(req, res){
-    // Get all campgrounds from DB
+    let noMatch = null;
+  		if (req.query.search) {
+   			 const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    		Campground.find({name: regex}, function(err, allCampgrounds) {	
+     			 if (err) { console.log(err); }
+    		  else {
+					  if (allCampgrounds.length < 1) {
+						 noMatch = "No campgrounds found, please try again.";
+						}
+					  res.render("campgrounds/index", { campgrounds: allCampgrounds, page: "campgrounds",  currentUser: req.user, noMatch: noMatch });  
+   				   }
+  			 });
+  } else {
+	// Get all campgrounds from DB
     Campground.find({}, function(err, allCampgrounds){
        if(err){
            console.log(err);
        } else {
-          res.render("campgrounds/index",{campgrounds:allCampgrounds, currentUser: req.user});
+          res.render("campgrounds/index",{campgrounds:allCampgrounds, currentUser: req.user , noMatch: noMatch});
        }
     });
+  }
 });
 
 //CREATE - add new campground to DB
