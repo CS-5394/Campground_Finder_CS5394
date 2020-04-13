@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.31% </span>
+                <span class="strong">44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/26</span>
+                <span class='fraction'>11/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.31% </span>
+                <span class="strong">44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/26</span>
+                <span class='fraction'>11/25</span>
             </div>
         
             
@@ -110,12 +110,7 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -136,10 +131,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,14 +158,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">var express = require("express");
@@ -194,11 +184,11 @@ router.post("/register" , <span class="fstat-no" title="function not covered" >f
 	var newUser = <span class="cstat-no" title="statement not covered" >new User({username: req.body.username});</span>
 <span class="cstat-no" title="statement not covered" >	User.register(newUser, req.body.password, <span class="fstat-no" title="function not covered" >fu</span>nction(err, user){</span>
 <span class="cstat-no" title="statement not covered" >		if(err){</span>
-			//req.flash("error", err.message);
-<span class="cstat-no" title="statement not covered" >			console.log(err);</span>
-<span class="cstat-no" title="statement not covered" >			res.render("register");</span>
+<span class="cstat-no" title="statement not covered" >			req.flash("error", err.message);</span>
+<span class="cstat-no" title="statement not covered" >			return res.redirect("/register");</span>
 		}
 <span class="cstat-no" title="statement not covered" >			passport.authenticate("local")(req,res,<span class="fstat-no" title="function not covered" >fu</span>nction(){</span>
+<span class="cstat-no" title="statement not covered" >				req.flash("success","Welcome to CampgroundFinder"+user.username);</span>
 <span class="cstat-no" title="statement not covered" >				res.redirect("/campgrounds");</span>
 			});
 		})
@@ -220,16 +210,11 @@ router.post("/login", passport.authenticate("local",
 //logout route
 router.get("/logout", <span class="fstat-no" title="function not covered" >fu</span>nction(req, res){
 <span class="cstat-no" title="statement not covered" >	req.logout();</span>
+<span class="cstat-no" title="statement not covered" >	req.flash("success","Logged you out!!");</span>
 <span class="cstat-no" title="statement not covered" >	res.redirect("/campgrounds");</span>
 });
 &nbsp;
-//middleware
-function <span class="fstat-no" title="function not covered" >isLoggedIn(</span>req, res, next){
-<span class="cstat-no" title="statement not covered" >	if(req.isAuthenticated()){</span>
-<span class="cstat-no" title="statement not covered" >		return next();</span>
-	}
-<span class="cstat-no" title="statement not covered" >	res.redirect("/login");</span>
-}
+&nbsp;
 &nbsp;
 module.exports = router;</pre></td></tr></table></pre>
 
@@ -238,7 +223,7 @@ module.exports = router;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Apr 13 2020 16:00:23 GMT+0000 (Coordinated Universal Time)
+                at Mon Apr 13 2020 21:32:22 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../prettify.js"></script>
