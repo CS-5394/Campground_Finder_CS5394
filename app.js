@@ -49,7 +49,12 @@ app.use(commentRoutes);
 app.use(campgroundRoutes);
 app.use(indexRoutes);
 
+//Condition to resolve port error for test cases execution
+if (process.env.NODE_ENV !== 'test') {
 app.listen(3000,function(){
 	console.log("The campground server has been started");
 });
+	}
+
+module.exports = app;
 	
