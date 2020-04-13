@@ -2,9 +2,10 @@ var express = require("express");
 var router = express.Router();
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
+var middleware = require("../middleware");
 
 //Comments new
-router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req,res){
+router.get("/campgrounds/:id/comments/new", middleware.isLoggedIn, function(req,res){
 	//find campground by id
 	Campground.findById(req.params.id, function(err, campground){
 		if(err){
@@ -17,7 +18,7 @@ router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req,res){
 });
 
 //Comments create
-router.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
+router.post("/campgrounds/:id/comments", middleware.isLoggedIn, function(req,res){
 	//lookup campground using ID
 	Campground.findById(req.params.id,function(err, campground){
 		if(err){
@@ -26,6 +27,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
 		}else{
 			Comment.create(req.body.comment,function(err, comment){
 				if(err){
+					req.flash("error","Something went wrong");
 					console.log(err);
 				}else{
 					//add username and id to comment
@@ -35,6 +37,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
 					comment.save();
 					campground.comments.push(comment);
 					campground.save();
+					req.flash("success","Successfully added comment");
 					res.redirect('/campgrounds/' + campground._id);
 				}
 			});
@@ -43,19 +46,26 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
 });
 
 //COMMENTS EDIT ROUTE
-router.get("/campgrounds/:id/comments/:comment_id/edit",checkCommentOwnership,function(req,res){
-	Comment.findById(req.params.comment_id,function(err,foundComment){
+router.get("/campgrounds/:id/comments/:comment_id/edit",middleware.checkCommentOwnership,function(req,res){
+	Comment.findById(req.params.id,function(err,foundCampground){
 		if(err){
-			res.render("back");
-		}else{
-			res.render("comments/edit",{campground_id:req.params.id,comment:foundComment});
+			req.flash("error","No campground found");
+			return res.redirect("back");
 		}
+		Comment.findById(req.params.comment_id,function(err,foundComment){
+			if(err){
+				res.render("back");
+			}else{
+				res.render("comments/edit",{campground_id:req.params.id,comment:foundComment});
+			}
+		});
 	});
+	
 	
 });
 
 //COMMENTS UPDATE ROUTE
-router.put("/campgrounds/:id/comments/:comment_id",checkCommentOwnership,function(req,res){
+router.put("/campgrounds/:id/comments/:comment_id",middleware.checkCommentOwnership,function(req,res){
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment,function(err,updatedComment){
 		if(err){
 			res.redirect("back");
@@ -66,42 +76,19 @@ router.put("/campgrounds/:id/comments/:comment_id",checkCommentOwnership,functio
 });
 
 //COMMENT DESTROY ROUTE
-router.delete("/campgrounds/:id/comments/:comment_id",checkCommentOwnership,function(req,res){
+router.delete("/campgrounds/:id/comments/:comment_id",middleware.checkCommentOwnership,function(req,res){
 	Comment.findByIdAndRemove(req.params.comment_id,function(err){
 		if(err){
 			res.redirect("back");
 		}else{
+			req.flash("Success","Comment deleted");
 			res.redirect("/campgrounds/" + req.params.id);
 		}
 	})
 });
 
-//middleware
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
 
-function checkCommentOwnership(req,res,next){
-	if(req.isAuthenticated()){
-		Comment.findById(req.params.comment_id,function(err,foundComment){
-			if(err){
-				res.redirect("back");
-			}else{
-				//Does user owns the comment?
-				if(foundComment.author.id.equals(req.user._id)){
-					next();
-				}else{
-					res.redirect("back");
-				}
-				
-			}
-		});
-	}else{
-		res.redirect("back");
-	}
-}
+
+
 
 module.exports = router;
