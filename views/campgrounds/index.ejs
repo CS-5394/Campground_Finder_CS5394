@@ -14,13 +14,16 @@
 			<p>
 				<a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Campground</a>
 			</p>
-			<form class="form-inline" action="/campgrounds" method="GET">
+			<div class="float-right">
+				<form class="form-inline" action="/campgrounds" method="GET">
      			 <div class="form-group has-feedback">
        				 <label for="search"></label>
         			<input class="form-control" type="text" name="search" placeholder="Search campgrounds" autocomplete="off" />
        				 <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
      			 </div>
-    		</form>
+    			</form>
+			</div><br><br>
+			
 		</div>
 		
 		 <div id="mapIndex"></div>
