@@ -16,11 +16,6 @@ describe('Test the root path', () =>{
      test ('Should post the new campground', async() => {			
 		
 		request(app).post("/campgrounds")  		
-        .send({
-           username: 'AnnieJK1',
-			 password: '123'		 
-         
-        })
 	    .set('Accept', 'application/json')
 	    .expect('Content-Type', '/json/')
         .expect(200);		
